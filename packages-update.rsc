@@ -93,6 +93,8 @@ $ScriptLock $0;
   }
 }
 
-$LogPrintExit2 info $0 ("Rebooting for update.") false;
+$LogPrintExit2 info $0 ("Scheduling reboot for update.") false;
 :delay 1s;
-/system/reboot;
+/system/scheduler/add name="\$RebootForUpdate" start-time=03:00:00 interval=1d \
+    on-event=("/system/scheduler/remove \"\\\$RebootForUpdate\"; " . \
+    ":global RebootForUpdate; \$RebootForUpdate;");
